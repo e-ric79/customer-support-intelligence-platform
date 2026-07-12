@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 1   # UI doesn't need multiple replicas for a portfolio demo
+  selector:
+    matchLabels: {app: frontend}
+  template:
+    metadata:
+      labels: {app: frontend}
+    spec:
+      containers:
+        - name: frontend
+          image: ticket-classifier-frontend:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: API_URL
+              value: "http://backend-service:8000"   # K8s internal DNS name, not localhost
+          ports:
+            - containerPort: 8501
+          resources:
+            requests: {cpu: "100m", memory: "256Mi"}
+            limits: {cpu: "300m", memory: "512Mi"}
+          readinessProbe:
+            httpGet: {path: /_stcore/health, port: 8501}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  type: NodePort   # exposes it outside the cluster for local access via Minikube
+  selector: {app: frontend}
+  ports:
+    - port: 8501
+      targetPort: 8501

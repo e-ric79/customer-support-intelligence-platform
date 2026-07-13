@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  backend:
+    image: ticket-classifier-backend:latest
+    container_name: classifier-backend
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    image: ticket-classifier-frontend:latest
+    container_name: classifier-frontend
+    ports:
+      - "8501:8501"
+    environment:
+      # Important: Use 'backend' as the host because Docker Compose 
+      # creates an internal network where services can reach each other by name.
+      - API_URL=http://backend:8000
+    depends_on:
+      - backend
+    restart: unless-stopped

@@ -28,6 +28,11 @@ jobs:
           pip install -r requirements.txt
           pip install pytest pytest-cov
 
+      # NEW STEP: Create the missing directory
+      - name: Create Training Data Directory
+        run: |
+          mkdir -p ../training/data
+
       - name: install train dependecies (if separate)
         run: |
           pip install -r ../training/requirements.txt

@@ -29,6 +29,8 @@ jobs:
           pip install pytest pytest-cov
 
       - name: Run tests
+        env:
+          PYTHONPATH: ${{ github.workspace }}/backend
         run: |
           # Run pytest with coverage (optional but recommended)
           pytest tests/ -v --cov=app --cov-report=xml

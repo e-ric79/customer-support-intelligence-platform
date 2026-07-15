@@ -14,7 +14,7 @@ text = st.text_area("Ticket text", height=150, placeholder="I was charged twice 
 
 if st.button("Classify", type="primary"):
     if not text.strip():
-        st.warning("Enter some ticket text first.")
+        st.warning("Enter ticket text first.")
     else:
         try:
             resp = requests.post(f"{API_URL}/predict", json={"text": text}, timeout=10)

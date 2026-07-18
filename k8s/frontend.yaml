@@ -12,8 +12,8 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: ticket-classifier-frontend:latest
-          imagePullPolicy: IfNotPresent
+          image: ghcr.io/e-ric79/customer-support-intelligence-platform/frontend:latest
+          imagePullPolicy: Always
           env:
             - name: API_URL
               value: "http://backend-service:8000"   # K8s internal DNS name, not localhost

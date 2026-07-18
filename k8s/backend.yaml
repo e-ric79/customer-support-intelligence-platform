@@ -12,8 +12,8 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ticket-classifier-backend:latest
-          imagePullPolicy: IfNotPresent   # use local image in Minikube; switch to Always once pulling from a registry
+          image: ghcr.io/e-ric79/customer-support-intelligence-platform/backend:latest
+          imagePullPolicy: Always   # use local image in Minikube; switch to Always once pulling from a registry
           ports:
             - containerPort: 8000
           resources:
